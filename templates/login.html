@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block bodycontent %}
+
+<center> <h1>CREATE ACCOUNT OR LOG IN!</h1> </center>
+
+<div class="container">
+  
+        <div class="panel-body form-group">
+            <form>
+                <input type="text" class="form-control" name="username" placeholder="USERNAME HERE">
+                <br>
+                <textarea class="form-control" name="password" rows="15" placeholder="PASSWORD HERE"></textarea>
+                <br>
+                <center>
+                    <button type="submit" name="button_login" class="btn btn-default btn-primary">LOGIN!</button>
+                </center>
+		<center>
+                    <button type="submit" name="button_signup" class="btn btn-default btn-primary">SIGNUP!</button>
+                </center>
+            </form>
+        </div>
+
+{% endblock bodycontent %}
