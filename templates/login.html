@@ -2,31 +2,42 @@
 
 {% block bodycontent %}
 
-<!--use the panels with login/register in headers-->
-
-<center> <h1>Log In!</h1> </center>
-
 <div class="container">
-  
-    <div class="panel-body form-group">
-        <form>
-            <input type="text" class="form-control" name="username" placeholder="Username">
-            <br>
-            <textarea class="form-control" name="password" rows="15" placeholder="Password"></textarea>
-            <br>
-            <center>
-                <button type="submit" name="button_login" class="btn btn-default btn-primary">LOGIN!</button>
-            </center>
-        </form>
-    </div>
-</div>
-        
-        
-        
-		<center>
-                    <button type="submit" name="button_signup" class="btn btn-default btn-primary">SIGNUP!</button>
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <center><h3>Login!</h3></center>
+        </div>
+        <div class="panel-body form-group">
+            <form>
+                <input type="text" class="form-control" name="username" placeholder="Username">
+                <br>
+                <textarea class="form-control" name="password" rows="15" placeholder="Password"></textarea>
+                <br>
+                <center>
+                    <button type="submit" name="button_login" class="btn btn-default btn-primary">Login!</button>
                 </center>
             </form>
         </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <center><h3>Register!</h3></center>
+        </div>
+        <div class="panel-body form-group">
+            <form>
+                <input type="text" class="form-control" name="username" placeholder="Username">
+                    <br>
+                    <textarea class="form-control" name="password" rows="15" placeholder="Password"></textarea>
+                    <br>
+                    <center>
+                        <button type="submit" name="button_login" class="btn btn-default btn-primary">Register!</button>
+                    </center>
+                    </form>
+        </div>
+    </div>
+</div>
+
 
 {% endblock bodycontent %}
