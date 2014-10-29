@@ -2,19 +2,27 @@
 
 {% block bodycontent %}
 
-<center> <h1>CREATE ACCOUNT OR LOG IN!</h1> </center>
+<!--use the panels with login/register in headers-->
+
+<center> <h1>Log In!</h1> </center>
 
 <div class="container">
   
-        <div class="panel-body form-group">
-            <form>
-                <input type="text" class="form-control" name="username" placeholder="USERNAME HERE">
-                <br>
-                <textarea class="form-control" name="password" rows="15" placeholder="PASSWORD HERE"></textarea>
-                <br>
-                <center>
-                    <button type="submit" name="button_login" class="btn btn-default btn-primary">LOGIN!</button>
-                </center>
+    <div class="panel-body form-group">
+        <form>
+            <input type="text" class="form-control" name="username" placeholder="Username">
+            <br>
+            <textarea class="form-control" name="password" rows="15" placeholder="Password"></textarea>
+            <br>
+            <center>
+                <button type="submit" name="button_login" class="btn btn-default btn-primary">LOGIN!</button>
+            </center>
+        </form>
+    </div>
+</div>
+        
+        
+        
 		<center>
                     <button type="submit" name="button_signup" class="btn btn-default btn-primary">SIGNUP!</button>
                 </center>
