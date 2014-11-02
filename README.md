@@ -1,4 +1,6 @@
-mongo-lassi
-===========
+#mongo-lassi
 
-account manager project
+Jenny Baran, Junhao Dong
+SoftDev Period 5
+
+Account Manager

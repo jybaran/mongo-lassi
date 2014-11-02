@@ -1,23 +1,49 @@
 #!/usr/bin/python
 from flask import Flask, render_template, request, redirect, url_for
-#import database
+import mongo
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
-    return render_template("login.html")
+    return redirect(url_for("login"))
 
-@app.route("/login")
+@app.route("/login",methods=["GET","POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        user = request.form["user"]
+        password = request.form["password"]
+        dict = {'user':user,'password':password}
+        if mongo.isValidLogin(dict):
+            # send user to home page
+            ####
+            return "HELLO WORLD"
+        else:
+            # do something when login info is not valid
+            ####
+            return render_template("login.html")
 
-@app.route("/register")
+@app.route("/register",methods=["GET","POST"])
 def register():
-    return render_template("register.html")
+    if request.method == "GET":
+        return render_template("register.html")
+    else:
+        user = request.form["user"]
+        password = request.form["password"]
+        dict = {'user':user, 'password':password}
+        if mongo.isValidRegister(dict):
+            mongo.insert(dict)
+            # let user know he succesfully registered
+            ####
+            return redirect(url_for("login"))
+        else:
+            # do something when register info is not valid
+            ####
+            return render_template("register.html")
 
 
 if __name__ == "__main__":
-    #app.debug=True
-    #database.create()
+    app.debug=True
     app.run()
