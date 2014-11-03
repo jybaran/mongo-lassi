@@ -9,10 +9,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    if 'user' in session:
-        return "home page for users already logged in"
-    else:
-        return redirect(url_for("login"))
+    return render_template("home.html")
+
+    #if 'user' in session:
+    #    return "home page for users already logged in"
+    #else:
+    #    return redirect(url_for("login"))
 
 @app.route("/login",methods=["GET","POST"])
 def login():
