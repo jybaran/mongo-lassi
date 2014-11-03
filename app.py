@@ -26,7 +26,8 @@ def login():
             # send user to home page
             ####
             session['user'] = user
-            return "WE MADE IT"
+            #return redirect(url_for("logout"))
+            return render_template("logout.html")
         else:
             # do something when login info is not valid
             ####
