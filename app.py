@@ -1,12 +1,18 @@
 #!/usr/bin/python
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import mongo
 
 app = Flask(__name__)
 
+#note: session stuff is setup but not being used right now
+# use it to let user know whether or not they are logged in (top right corner)
+
 @app.route("/")
 def main():
-    return redirect(url_for("login"))
+    if 'user' in session:
+        return "home page for users already logged in"
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -19,6 +25,7 @@ def login():
         if mongo.isValidLogin(dict):
             # send user to home page
             ####
+            session['user'] = user
             return "WE MADE IT"
         else:
             # do something when login info is not valid
@@ -45,6 +52,16 @@ def register():
             return "Username taken"
             #return render_template("register.html")
 
+@app.route("/logout")
+def logout():
+    session.pop("user",None)
+    return redirect(url_for("login"))
+
+
+#======================END-DEFINITIONS======================
+
+
+app.secret_key = '\x90\x9c\xe3C<\x12]^v0p\xde\xc7\xb2\xa1\xea\x90e\x10\xfe\xf1\xd0\xa7g'
 
 if __name__ == "__main__":
     app.debug=True
