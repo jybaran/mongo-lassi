@@ -19,11 +19,12 @@ def login():
         if mongo.isValidLogin(dict):
             # send user to home page
             ####
-            return "HELLO WORLD"
+            return "WE MADE IT"
         else:
             # do something when login info is not valid
             ####
-            return render_template("login.html")
+            return "Login failed"
+            #return render_template("login.html")
 
 @app.route("/register",methods=["GET","POST"])
 def register():
@@ -34,14 +35,15 @@ def register():
         password = request.form["password"]
         dict = {'user':user, 'password':password}
         if mongo.isValidRegister(dict):
-            mongo.insert(dict)
+            mongo.addAccount(dict)
             # let user know he succesfully registered
             ####
             return redirect(url_for("login"))
         else:
             # do something when register info is not valid
             ####
-            return render_template("register.html")
+            return "Username taken"
+            #return render_template("register.html")
 
 
 if __name__ == "__main__":
