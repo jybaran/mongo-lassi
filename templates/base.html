@@ -7,7 +7,13 @@
 </head>
 
 <body>
-    
+    <div class="container" align="right">
+        {% if user==NULL %} testing {% else %} {{user}} {% endif %}
+        
+    </div>
+    <br>
+    <br>
+
  {% block bodycontent %}
 
  {% endblock bodycontent %}
