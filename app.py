@@ -1,59 +1,47 @@
 #!/usr/bin/python
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, \
+    url_for, session, flash
 import mongo
+
 
 app = Flask(__name__)
 
-#note: session stuff is setup but not being used right now
-# use it to let user know whether or not they are logged in (top right corner)
 
 @app.route("/")
-def main():
+def home():
     return render_template("home.html")
-
-    #if 'user' in session:
-    #    return "home page for users already logged in"
-    #else:
-    #    return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-    else:
+    if request.method == "POST":
         user = request.form["user"]
         password = request.form["password"]
         dict = {'user':user,'password':password}
+
         if mongo.isValidLogin(dict):
-            # send user to home page
-            ####
             session['user'] = user
-            return redirect(url_for("logout"))
-            #return render_template("logout.html")
+            flash("Sucessfully logged in")
+            return redirect(url_for("home"))
         else:
-            # do something when login info is not valid
-            ####
-            return "Login failed"
-            #return render_template("login.html")
+            flash("Invalid username or password", "error")
+
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-    if request.method == "GET":
-        return render_template("register.html")
-    else:
+    if request.method == "POST":
         user = request.form["user"]
         password = request.form["password"]
         dict = {'user':user, 'password':password}
+
         if mongo.isValidRegister(dict):
             mongo.addAccount(dict)
-            # let user know he succesfully registered
-            ####
+            flash("Successfully registered")
             return redirect(url_for("login"))
         else:
-            # do something when register info is not valid
-            ####
-            return "Username taken"
-            #return render_template("register.html")
+            flash("Username taken", "error")
+
+    return render_template("register.html")
 
 @app.route("/logout", methods=["GET","POST"])
 def logout():
@@ -61,7 +49,7 @@ def logout():
         return render_template("logout.html")
     else:
         session.pop("user",None)
-        return redirect(url_for("main"))
+        return redirect(url_for("home"))
 
 
 #======================END-DEFINITIONS======================

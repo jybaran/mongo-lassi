@@ -4,7 +4,7 @@
 {% endblock notloggedin %}
 
 {% block logoutlink %}
-<br>Log out <a href="http://127.0.0.1:5000/logout">here</a>!
+<br>Log out <a href="{{ url_for('logout') }}">here</a>!
 {% endblock logoutlink %}
 
 {% block bodycontent %}
@@ -18,7 +18,7 @@
         <div class="panel-heading">
             <center><h3>Login!</h3></center>
         </div>
-        
+
         <div class="panel-body form-group">
             <form method="POST">
                 <input type="text" class="form-control" name="user" placeholder="Username">
@@ -32,7 +32,7 @@
         </div>
         
         <div class="panel-footer">
-            <a href="http://127.0.0.1:5000/register">Don't have an account? Register!</a>
+            <a href="{{ url_for('register') }}"">Don't have an account? Register!</a>
         </div>
         
     </div>

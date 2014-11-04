@@ -7,14 +7,34 @@
 </head>
 
 <div class="container" align="right">
-    {% if session['user']==NULL %}
+  {% with user = session['user'] %}
+    {% if user==NULL %}
         {% block notloggedin %}
         {% endblock notloggedin %}
     {% else %}
-        User: {{session['user']}}
+        User: {{user}}
         {% block logoutlink %}
         {% endblock logoutlink %}
     {% endif %}
+  {% endwith %}
+</div>
+
+<!-- make this pretty and stuff
+
+    {{category}} is either 'error' (e.g. invalid user)
+    or 'message' (e.g. successfully logged in!)
+
+    you can use an if block to format messages differently from errors
+    so that errors stand out more or something
+-->
+<div class="container" align="center">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category,message in messages %}
+        {{ message }}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 </div>
 
 <body>
