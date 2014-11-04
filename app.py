@@ -16,7 +16,7 @@ def main():
     #else:
     #    return redirect(url_for("login"))
 
-@app.route("/login",methods=["GET","POST"])
+@app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "GET":
         return render_template("login.html")
@@ -28,15 +28,15 @@ def login():
             # send user to home page
             ####
             session['user'] = user
-            #return redirect(url_for("logout"))
-            return render_template("logout.html")
+            return redirect(url_for("logout"))
+            #return render_template("logout.html")
         else:
             # do something when login info is not valid
             ####
             return "Login failed"
             #return render_template("login.html")
 
-@app.route("/register",methods=["GET","POST"])
+@app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
@@ -55,10 +55,13 @@ def register():
             return "Username taken"
             #return render_template("register.html")
 
-@app.route("/logout")
+@app.route("/logout", methods=["GET","POST"])
 def logout():
-    session.pop("user",None)
-    return redirect(url_for("login"))
+    if request.method == "GET":
+        return render_template("logout.html")
+    else:
+        session.pop("user",None)
+        return redirect(url_for("main"))
 
 
 #======================END-DEFINITIONS======================

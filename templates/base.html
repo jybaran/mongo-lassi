@@ -6,12 +6,18 @@
   <link rel="stylesheet" href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css">
 </head>
 
+<div class="container" align="right">
+    {% if session['user']==NULL %}
+        {% block notloggedin %}
+        {% endblock notloggedin %}
+    {% else %}
+        User: {{session['user']}}
+        {% block logoutlink %}
+        {% endblock logoutlink %}
+    {% endif %}
+</div>
+
 <body>
-    
-    <div class="container" align="right">
-        {% if user==NULL %} testing {% else %} {{user}} {% endif %}
-        
-    </div>
 
  {% block bodycontent %}
 

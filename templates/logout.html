@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 
+{% block notloggedin %}
+{% endblock notloggedin %}
+{% block logoutlink %}
+{% endblock logoutlink %}
+
 {% block bodycontent %}
 
+<br>
+
 <div class="container">
-  <center>
-    <button type="submit" name="button_logout" class="btn btn-danger">
-      Log out!
-    </button>
-  </center>
+    <div class="form-group">
+        <form method="POST">
+            <center>
+                <button type="submit" name="button_logout" class="btn btn-danger">
+                    Log out!
+                </button>
+            </center>
+        </div>
+    </div>
 </div>
 
 {% endblock bodycontent %}
