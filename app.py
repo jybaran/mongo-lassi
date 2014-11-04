@@ -1,7 +1,7 @@
 #!/usr/bin/python
+import mongo
 from flask import Flask, render_template, request, redirect, \
     url_for, session, flash
-import mongo
 
 
 app = Flask(__name__)
@@ -17,14 +17,15 @@ def login():
         user = request.form["user"]
         password = request.form["password"]
         dict = {'user':user,'password':password}
+        #error = None if no errors
+        error = mongo.loginErrors(dict)
 
-        if mongo.isValidLogin(dict):
+        if error:
+            flash(error, "error")
+        else:
             session['user'] = user
             flash("Sucessfully logged in")
             return redirect(url_for("home"))
-        else:
-            flash("Invalid username or password", "error")
-
     return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
@@ -33,13 +34,15 @@ def register():
         user = request.form["user"]
         password = request.form["password"]
         dict = {'user':user, 'password':password}
+        #error = None if no errors
+        error = mongo.registerErrors(dict)
 
-        if mongo.isValidRegister(dict):
+        if error:
+            flash(error, "error")
+        else:
             mongo.addAccount(dict)
             flash("Successfully registered")
             return redirect(url_for("login"))
-        else:
-            flash("Username taken", "error")
 
     return render_template("register.html")
 
