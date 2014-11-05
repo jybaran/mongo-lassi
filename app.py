@@ -25,7 +25,7 @@ def login():
         else:
             session['user'] = user
             flash("Sucessfully logged in")
-            return redirect(url_for("home"))
+            return redirect(url_for("animals"))
     return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
@@ -53,6 +53,18 @@ def logout():
     else:
         session.pop("user",None)
         return redirect(url_for("home"))
+
+@app.route("/animals")
+def animals():
+    return render_template("animals.html")
+
+@app.route("/otter")
+def otter():
+    return render_template("otter.html")
+
+@app.route("/kitten")
+def kitten():
+    return render_template("kitten.html")
 
 
 #======================END-DEFINITIONS======================
