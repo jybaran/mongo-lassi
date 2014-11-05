@@ -54,21 +54,21 @@ def logout():
 
 @app.route("/animals")
 def animals():
-    if session == None:
+    if 'user' not in session:
         flash("You need to be logged in to see that!")
         return redirect(url_for("login"))
     return render_template("animals.html")
 
 @app.route("/otter")
 def otter():
-    if session == None:
+    if 'user' not in session:
         flash("You need to be logged in to see that!")
         return redirect(url_for("login"))
     return render_template("otter.html")
 
 @app.route("/kitten")
 def kitten():
-    if session == None:
+    if 'user' not in session:
         flash("You need to be logged in to see that!")
         return redirect(url_for("login"))
     return render_template("kitten.html")
