@@ -7,40 +7,31 @@
 </head>
 
 <div class="container" align="center">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
     {% for category,message in messages %}
-    {% if category == 'error' %}
-    <div class="alert alert-danger" role="alert">{{ message }}</div>
-    {% else %}
-    <div class="alert alert-success" role="alert">{{ message }}</div>
-    {% endif %}
+      {% if category == 'error' %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% else %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+      {% endif %}
     {% endfor %}
-    {% endif %}
-    {% endwith %}
+  {% endif %}
+  {% endwith %}
 </div>
 
 <div class="container" align="right">
   {% with user = session['user'] %}
     {% if user==NULL %}
-        {% block notloggedin %}
-        {% endblock notloggedin %}
+       {% block notloggedin %}
+       {% endblock notloggedin %}
     {% else %}
-        User: {{user}}
-        {% block logoutlink %}
-        {% endblock logoutlink %}
+       User: {{user}}
+       {% block logoutlink %}
+       {% endblock logoutlink %}
     {% endif %}
   {% endwith %}
 </div>
-
-<!-- make this pretty and stuff
-
-    {{category}} is either 'error' (e.g. invalid user)
-    or 'message' (e.g. successfully logged in!)
-
-    you can use an if block to format messages differently from errors
-    so that errors stand out more or something
--->
 
 <body>
 
