@@ -31,7 +31,3 @@ def loginErrors(dict):
 def addAccount(dict):
     dict['date_created'] = datetime.date.today().strftime("%B %d, %Y")
     accounts.insert(dict)
-
-#def changePass(dict, newPass):
-#    accounts.update(dict, {$set: { password:newPass }})
-    

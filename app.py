@@ -3,9 +3,18 @@ import mongo
 from flask import Flask, render_template, request, redirect, \
     url_for, session, flash
 
-
 app = Flask(__name__)
 
+def loginForm(page):
+    user = request.form["user"]
+    password = request.form["password"]
+    dict = {'user':user,'password':password}
+    error = mongo.loginErrors(dict)
+    if error:
+        flash(error, "error")
+    else:
+        session['user'] = user
+        return redirect(url_for(page))
 
 @app.route("/")
 def home():
@@ -14,17 +23,7 @@ def home():
 @app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
-        user = request.form["user"]
-        password = request.form["password"]
-        dict = {'user':user,'password':password}
-        error = mongo.loginErrors(dict)
-
-        if error:
-            flash(error, "error")
-        else:
-            session['user'] = user
-            flash("Sucessfully logged in")
-            return redirect(url_for("animals"))
+        loginForm("animals")
     return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
@@ -52,26 +51,38 @@ def logout():
         session.pop("user",None)
         return redirect(url_for("home"))
 
-@app.route("/animals")
+@app.route("/animals", methods=["GET","POST"])
 def animals():
-    if 'user' not in session:
-        flash("You need to be logged in to see that!")
-        return redirect(url_for("login"))
-    return render_template("animals.html")
+    if request.method == "GET":
+        if 'user' not in session:
+            flash("You need to be logged in to see that!")
+            return render_template("login.html")
+        else:
+            return render_template("animals.html")
+    if request.method == "POST":
+        loginForm("animals")
 
 @app.route("/otter")
 def otter():
-    if 'user' not in session:
-        flash("You need to be logged in to see that!")
-        return redirect(url_for("login"))
-    return render_template("otter.html")
+    if request.method == "GET":
+        if 'user' not in session:
+            flash("You need to be logged in to see that!")
+            return render_template("login.html")
+        else:
+            return render_template("otter.html")
+    if request.method == "POST":
+        loginForm("otter")
 
 @app.route("/kitten")
 def kitten():
-    if 'user' not in session:
-        flash("You need to be logged in to see that!")
-        return redirect(url_for("login"))
-    return render_template("kitten.html")
+    if request.method == "GET":
+        if 'user' not in session:
+            flash("You need to be logged in to see that!")
+            return render_template("login.html")
+        else:
+            return render_template("kitten.html")
+    if request.method == "POST":
+        loginForm("kitten")
 
 
 #======================END-DEFINITIONS======================
@@ -81,4 +92,4 @@ app.secret_key = '\x90\x9c\xe3C<\x12]^v0p\xde\xc7\xb2\xa1\xea\x90e\x10\xfe\xf1\x
 
 if __name__ == "__main__":
     app.debug=True
-    app.run()
+    app.run(host="0.0.0.0")
