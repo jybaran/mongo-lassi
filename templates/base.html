@@ -6,6 +6,20 @@
   <link rel="stylesheet" href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css">
 </head>
 
+<div class="container" align="center">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    {% if category == 'error' %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-success" role="alert">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
 <div class="container" align="right">
   {% with user = session['user'] %}
     {% if user==NULL %}
@@ -27,15 +41,6 @@
     you can use an if block to format messages differently from errors
     so that errors stand out more or something
 -->
-<div class="container" align="center">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category,message in messages %}
-        {{ message }}
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-</div>
 
 <body>
 
