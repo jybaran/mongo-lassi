@@ -60,9 +60,9 @@ def animals():
         else:
             return render_template("animals.html")
     if request.method == "POST":
-        loginForm("animals")
+        return loginForm("animals")
 
-@app.route("/otter")
+@app.route("/otter", methods=["GET","POST"])
 def otter():
     if request.method == "GET":
         if 'user' not in session:
@@ -71,9 +71,9 @@ def otter():
         else:
             return render_template("otter.html")
     if request.method == "POST":
-        loginForm("otter")
+        return loginForm("otter")
 
-@app.route("/kitten")
+@app.route("/kitten", methods=["GET","POST"])
 def kitten():
     if request.method == "GET":
         if 'user' not in session:
@@ -82,7 +82,7 @@ def kitten():
         else:
             return render_template("kitten.html")
     if request.method == "POST":
-        loginForm("kitten")
+        return loginForm("kitten")
 
 
 #======================END-DEFINITIONS======================
