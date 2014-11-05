@@ -17,12 +17,16 @@ def loginForm(page):
 
 @app.route("/")
 def home():
+    if 'user' in session:
+        return redirect("animals")
     return render_template("home.html")
 
 @app.route("/login", methods=["GET","POST"])
 def login():
     if request.method == "POST":
         loginForm("animals")
+    if 'user' in session:
+        return redirect("animals")
     return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
@@ -48,7 +52,7 @@ def logout():
         return render_template("logout.html")
     else:
         session.pop("user",None)
-        return redirect("home")
+        return redirect("/")
 
 @app.route("/animals", methods=["GET","POST"])
 def animals():
