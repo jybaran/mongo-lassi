@@ -1,17 +1,23 @@
 #!/usr/bin/python
 import mongo
-from flask import Flask, render_template, request, redirect, session, flash, url_for
+from flask import Flask, render_template, request, redirect, session, flash
+from functools import wraps
 
 # the second kitten image link is broken :(
 
 app = Flask(__name__)
 
-def requireLogin(page):
-    if 'user' not in session:
-        flash("You need to be logged in to see that!")
-        return redirect("login")
-    else:
-        return render_template("%s.html"%page)
+def authenticate(page):
+    def decorate(f):
+        @wraps(f)
+        def inner(*args):
+            if 'user' not in session:
+                flash("You need to be logged in to see that!")
+                session['nextpage'] = page
+                return redirect("/login")
+            return f(*args)
+        return inner
+    return decorate
 
 @app.route("/home")
 @app.route("/")
@@ -24,7 +30,7 @@ def home():
 def login():
     if 'user' in session:
         flash("Already logged in!", "error")
-        return redirect("animals")
+        return redirect("/animals")
     
     # Logging in
     if request.method == "POST":
@@ -33,12 +39,16 @@ def login():
         error = mongo.loginErrors(user, password)
         if error:
             flash(error, "error")
-            return render_template("login.html")
         else:
             session['user'] = user
-            return redirect("animals")
-    else:
-        return render_template("login.html")
+            if 'nextpage' in session:
+                page = session['nextpage']
+                session.pop("nextpage")
+                return redirect(page)
+            else:
+                return redirect("animals")
+    # If error or method == GET
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -53,39 +63,44 @@ def register():
         error = mongo.registerErrors(user,password)
         if error:
             flash(error, "error")
-            return render_template("register.html")
         else:
             mongo.addAccount(user,password)
             flash("Successfully registered")
-            return redirect("login")
-    else:
-        return render_template("register.html")
+            return redirect("/login")
+    # If error or method == GET
+    return render_template("register.html")
 
 @app.route("/logout", methods=["GET","POST"])
 def logout():
+    if 'user' not in session:
+        flash("Not logged in!", "error")
+        return redirect("login")
+
     if request.method == "POST":
-        session.pop("user",None)
+        session.pop("user")
         return redirect("/")
     else:
         return render_template("logout.html")
 
 @app.route("/animals")
+@authenticate("/animals")
 def animals():
-    return requireLogin("animals")
+    return render_template("animals.html")
 
 @app.route("/otter")
+@authenticate("/otter")
 def otter():
-    return requireLogin("otter")
+    return render_template("otter.html")
 
 @app.route("/kitten", methods=["GET","POST"])
+@authenticate("/kitten")
 def kitten():
-    return requireLogin("kitten")
+    return render_template("kitten.html")
 
 
 #======================END-DEFINITIONS======================
 
 
-#should not be on github
 app.secret_key = '\x90\x9c\xe3C<\x12]^v0p\xde\xc7\xb2\xa1\xea\x90e\x10\xfe\xf1\xd0\xa7g'
 
 if __name__ == "__main__":
