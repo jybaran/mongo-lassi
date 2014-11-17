@@ -3,8 +3,6 @@ import mongo
 from flask import Flask, render_template, request, redirect, session, flash
 from functools import wraps
 
-# the second kitten image link is broken :(
-
 app = Flask(__name__)
 
 def authenticate(page):
